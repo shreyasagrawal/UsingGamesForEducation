@@ -1,0 +1,12 @@
+name: nypd_barcharts4
+title: NYPD_BarCharts
+username: kuipers@grinnell.edu
+account: kuipers@grinnell.edu
+server: shiny.grinnell.edu
+hostUrl: https://shiny.grinnell.edu/__api__
+appId: 80
+bundleId: 100
+url: https://shiny.grinnell.edu/content/3afb6317-0ed1-4eac-8d52-b7452218299d/
+when: 1643755004.67397
+asMultiple: FALSE
+asStatic: FALSE

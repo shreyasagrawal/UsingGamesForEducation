@@ -1,0 +1,233 @@
+---
+title: "raceranalysis"
+author: "shrey agrawal"
+date: "`r Sys.Date()`"
+output:
+  word_document: default
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+```
+
+#setup and cleaning
+
+Importing and cleaning data, removing an outlier
+```{r}
+library(readr)
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+require(mosaic)
+
+##Importing Data
+allData = read.csv("https://stat2games.sites.grinnell.edu/data/racekartb/getdata.php")
+
+#cleaning
+NewDataRestrictedCars = filter(allData, Game > 633, FinishedTime > 0.1, CarID == 1|CarID == 15 |CarID==29)
+NewDataUnrestricted = filter(allData, Game > 633, FinishedTime > 0.1)
+  
+NewDataRestrictedCars$GroupID <- tolower(NewDataRestrictedCars$GroupID)
+NewDataRestrictedCars$PlayerID <- tolower(NewDataRestrictedCars$PlayerID)
+NewDataUnrestricted$GroupID <- tolower(NewDataUnrestricted$GroupID)
+NewDataUnrestricted$PlayerID <- tolower(NewDataUnrestricted$PlayerID)
+
+
+#REMOVING AN OUTLIER
+NewDataRestrictedCars = filter(NewDataRestrictedCars, FinishedTime != 99.90)
+NewDataUnrestricted = filter(NewDataUnrestricted, FinishedTime != 99.90)
+
+names(NewDataUnrestricted)
+str(NewDataUnrestricted$CarID)
+```
+
+
+#In restricted, which is the fastest car
+```{r}
+NewDataRestrictedCars = arrange(NewDataRestrictedCars, FinishedTime)
+print("TABLE SORTED BY FINISHED TIME")
+head(NewDataRestrictedCars)
+
+NewDataRestrictedCars = arrange(NewDataRestrictedCars, TopSpeed)
+print("TABLE SORTED BY TOPSPEED TIME")
+head(NewDataRestrictedCars)
+
+NewDataRestrictedCars = arrange(NewDataRestrictedCars, TimeTo30)
+print("TABLE SORTED BY TIMETO30 TIME")
+head(NewDataRestrictedCars)
+
+restrictedplot1 = ggplot(data = NewDataRestrictedCars, aes(x = CarID, y = FinishedTime)) + geom_point()  + aes(colour = Track) + theme(legend.position = "right") + labs(title = "Restricted to 1,15,29. FinishedTime vs CarID, colored by Track")
+restrictedplot1
+
+restrictedplot2 = ggplot(data = NewDataRestrictedCars, aes(x = CarID, y = TopSpeed)) + geom_point()  + aes(colour = Track) + theme(legend.position = "right") + labs(title = "Restricted to 1,15,29. TopSpeed vs CarID, colored by Track")
+restrictedplot2
+
+restrictedplot3 = ggplot(data = NewDataRestrictedCars, aes(x = CarID, y = TimeTo30)) + geom_point()  + aes(colour = Track) + theme(legend.position = "right") + labs(title = "Restricted to 1,15,29. TimeTo30 vs CarID, colored by Track")
+restrictedplot3
+
+```
+
+
+
+#all cars straight track - 3PLOTS, 1TABLE HERE
+```{r}
+
+straightData = filter(NewDataUnrestricted, NewDataUnrestricted$Track == "StraightTrack")
+straightData = arrange(straightData, FinishedTime)
+head(straightData)
+
+plotfinishvscarstraight = ggplot(data = straightData, aes(x = CarID, y = FinishedTime)) + geom_point()  + 
+  aes(colour = PlayerID) + 
+  theme(legend.position = "right") + 
+  labs(title = "StraightTrack results only. FinishTime vs CarID, colored by PlayerID")
+plotfinishvscarstraight
+
+plottopspeedvscarstraight = ggplot(data = straightData, aes(x = CarID, y = TopSpeed)) + geom_point()  + 
+  aes(colour = PlayerID) + 
+  theme(legend.position = "right") + 
+  labs(title = "StraightTrack results only. TopSpeed vs CarID, colored by PlayerID")
+plottopspeedvscarstraight
+
+plottimeto30vscarstraight = ggplot(data = straightData, aes(x = CarID, y = TimeTo30)) + geom_point()  + 
+  aes(colour = PlayerID) + 
+  theme(legend.position = "right") + 
+  labs(title = "StraightTrack results only. Timeto30 vs CarID, colored by PlayerID")
+plottimeto30vscarstraight
+
+```
+
+
+#all cars oval track - 3PLOTS, 1TABLE HERE
+```{r}
+
+ovalData = filter(NewDataUnrestricted, NewDataUnrestricted$Track == "OvalTrack")
+ovalData = arrange(ovalData, FinishedTime)
+head(ovalData)
+
+plotfinishvscaroval = ggplot(data = ovalData, aes(x = CarID, y = FinishedTime)) + geom_point()  + 
+  aes(colour = PlayerID) + 
+  theme(legend.position = "right") + 
+  labs(title = "OvalTrack results only. FinishTime vs CarID, colored by PlayerID")
+plotfinishvscaroval
+
+plottopspeedvscaroval = ggplot(data = ovalData, aes(x = CarID, y = TopSpeed)) + geom_point()  + 
+  aes(colour = PlayerID) + 
+  theme(legend.position = "right") + 
+  labs(title = "OvalTrack results only. TopSpeed vs CarID, colored by PlayerID")
+plottopspeedvscaroval
+
+plottimeto30vscaroval = ggplot(data = ovalData, aes(x = CarID, y = TimeTo30)) + geom_point()  + 
+  aes(colour = PlayerID) + 
+  theme(legend.position = "right") + 
+  labs(title = "OvalTrack results only. Timeto30 vs CarID, colored by PlayerID")
+plottimeto30vscaroval
+
+```
+
+
+
+#q1. who was the fastest on the oval track?
+```{r}
+
+plot1 = ggplot(data = NewDataUnrestricted, aes(x = Track, y = FinishedTime)) + geom_point()  + aes(colour = as.factor(PlayerID)) + theme(legend.position = "right") + labs(title = "Track vs FinishTime Colored by PlayerID")
+
+plot1
+```
+
+
+#q2. Which tire, body, engine combination is fastest on the STRAIGHT track? LOWEST FINISH TIME
+```{r}
+
+straightData = filter(NewDataUnrestricted, NewDataUnrestricted$Track == "StraightTrack")
+straightData = arrange(straightData, FinishedTime)
+head(straightData)
+
+plot2 = ggplot(data = straightData, aes(x = Engine, y = FinishedTime)) + geom_point()  + 
+  aes(colour = Body) + 
+  facet_grid(~Tire) + 
+  theme(legend.position = "right") + 
+  labs(title = "StraightTrack results only. FinishTime vs Engine faceted by Tire, colored by Body")
+
+plot2
+
+```
+
+
+#q3. Which tire, body, engine combination is fastest on the OVAL track? LOWEST FINISH TIME
+```{r}
+
+ovalData = filter(NewDataUnrestricted, NewDataUnrestricted$Track == "OvalTrack")
+ovalData = arrange(ovalData, FinishedTime)
+head(ovalData)
+
+plot3 = ggplot(data = ovalData, aes(x = Engine, y = FinishedTime)) + geom_point()  + aes(colour = Body) + facet_wrap(~Tire, ncol = 4) + theme(legend.position = "right") + labs(title = "OvalTrack results only. FinishTime vs Engine faceted by Tire, colored by Body")
+
+plot3
+```
+
+
+
+#q4. Which tire, body, engine combination has the highest TOP SPEED REACHED
+```{r}
+plot4 = ggplot(data = NewDataUnrestricted, aes(x = Engine, y = TopSpeed)) + 
+  geom_point()  + 
+  aes(colour = Body) + 
+  facet_wrap(~Tire, ncol = 4) + 
+  theme(legend.position = "right") + labs(title = "TopSpeed vs Engine faceted by Tire, colored by Body")
+
+plot4
+
+```
+
+
+
+#Some extra analysis in table form with Mean Finish TIMES.
+```{r}
+group1 = group_by(NewDataUnrestricted, Track, Engine, Tire, Body) 
+group2 = summarise(group1, 
+        TimesPlayed = n(),
+        MeanFinishedTime = mean(FinishedTime, na.rm = TRUE), 
+        SDFinishTime = sd(FinishedTime, na.rm= TRUE))
+
+group2=group2[order(group2$MeanFinishedTime),]
+group2
+
+```
+
+
+
+#anova test
+```{r}
+anovatest1 <- aov(FinishedTime ~ Track*Engine*Tire*Body, data = NewDataUnrestricted)
+summary(anovatest1)
+
+anovatest1 <- aov(FinishedTime ~ Engine*Tire*Body, data = ovalData)
+summary(anovatest1)
+
+anovatest1 <- aov(FinishedTime ~ Engine*Tire*Body, data = straightData)
+summary(anovatest1)
+
+anovatest2 <- aov(FinishedTime ~ Tire, data = straightData)
+summary(anovatest2)
+
+anovatest3 <- aov(FinishedTime ~ Body, data = straightData)
+summary(anovatest3)
+
+anovatest3 <- aov(FinishedTime ~ Engine, data = straightData)
+summary(anovatest3)
+
+#ANOVA FOR CARID
+anovatestcar <- aov(FinishedTime ~ CarID, data = NewDataUnrestricted)
+summary(anovatestcar)
+```
+
+
+
+
+
+
+
+

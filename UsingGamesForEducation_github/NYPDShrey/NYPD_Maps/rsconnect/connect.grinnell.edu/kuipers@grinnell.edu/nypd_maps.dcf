@@ -1,0 +1,12 @@
+name: nypd_maps
+title: NYPD_Maps
+username: kuipers@grinnell.edu
+account: kuipers@grinnell.edu
+server: connect.grinnell.edu
+hostUrl: https://connect.grinnell.edu/__api__
+appId: 40
+bundleId: 47
+url: https://connect.grinnell.edu/content/124fee97-3f24-4883-80ee-4db29af0cd77/
+when: 1629471893.87911
+asMultiple: FALSE
+asStatic: FALSE

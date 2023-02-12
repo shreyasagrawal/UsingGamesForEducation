@@ -1,0 +1,44 @@
+---
+title: "Untitled"
+author: "kuiper"
+date: '2022-07-15'
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## initial setup
+This online tutorial is designed to introduce you to using R and RStudio to make the graphs using the NYPD. In this tutorial, you can edit and execute R code and see the results within your browser. You can also learn more details about coding in R using our RTutorials from our Stat2Labs page {{include linkhttps://stat2labs.sites.grinnell.edu/RTutorials.html}}
+
+
+ 
+
+
+In R, text and coding are often separated. The places where we type our code are called Code Chunks.
+
+
+
+
+
+```{r}
+library(readr)
+NYPDdf <- read_csv("C:/Users/kuipers/Dropbox/MAP_2022Summer/Analytics/NYPD/NYPD_BarCharts/NYPDBarData.csv")
+dim(NYPDdf)
+names(NYPDdf)
+```
+
+## Making plots 1 :
+
+Make plots from page 1{{https://dataspace.sites.grinnell.edu/nypd1.html}}: USE ONLY MOSAIC AND GGFORMULA packages for this
+
+
+```{r pressure, echo=FALSE}
+
+```
+
+
+Throughout this tutorial we are using an R package called mosaic {{indlude link}} that is designed to for people new to computer programming.

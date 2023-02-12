@@ -1,0 +1,90 @@
+---
+title: "NYPD page 4"
+author: "shrey agrawal"
+date: '2022-07-18'
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## initial setup
+This online tutorial is designed to introduce you to using R and RStudio to make the graphs using the NYPD. In this tutorial, you can edit and execute R code and see the results within your browser. You can also learn more details about coding in R using our RTutorials from our Stat2Labs page {{include linkhttps://stat2labs.sites.grinnell.edu/RTutorials.html}}
+
+In R, text and coding are often separated. The places where we type our code are called Code Chunks.
+
+```{r}
+library(readr)
+library(learnr)
+NYPDdf <- read_csv("NYPD_BarCharts/NYPDBarData.csv")
+dim(NYPDdf)
+names(NYPDdf)
+```
+
+```{r setup, include=FALSE}
+#setup
+NYPDdf <- mutate(NYPDdf, CrimeType = replace(CrimeType, CrimeType == "Tresspass" ,"Trespass"))
+
+####### Custom Colors #######
+customColors <- c("#a6cee3", "#1f78b4", "#b2df84", "#33a02c",
+                  "#fb9a99", "#e31a1c", "#fdbf6f", "#ff7f00")
+
+####### Force Variables #######
+ForceVariables <- c(
+                    "HandCuff" = "HandCuff",
+                    "Firearm" = "Firearm",
+                    "CEW" = "CEW",
+                    "PepperSpray" = "PepperSpray",
+                    "Other" = "Other",
+                    "Verbal" = "Verbal",
+                    "Summons" = "Summons"
+                    )
+
+####### Race Variables #######
+RaceVariables <- c("Black" = "Black",
+                   "Hispanic" = "Hispanic",
+                   "White" = "White",
+                   "Other" = "Other")
+
+####### Gender Variables #######
+GenderVariables <- c("Female" = "Female",
+                     "Male" = "Male",
+                     "Other" = "Other")
+
+####### Crime Type Variables #######
+CrimeVariables <- c("Assault" = "Assault",
+                    "Trespass" = "Trespass",
+                    "Weapon" = "Weapon",
+                    "Theft" = "Theft",
+                    "Substance" = "Substance",
+                    "Other" = "Other")
+
+####### Categorical Variables #######
+CatOptions = c("Race" = "Race",
+               "Gender" = "Gender",
+               "Crime Type" = "CrimeType",
+               "Year" = "Year")
+
+####### Quantitative Variables #######
+QuanOptions = c("Stopped" = "Stopped",
+                "Frisked" = "Frisked",
+                "Searched" = "Searched",
+                "Arrested" = "Arrested",
+                ForceVariables)
+
+```
+## Making plots 1 :
+
+Make plots from page 1{{https://dataspace.sites.grinnell.edu/nypd1.html}}: USE ONLY MOSAIC AND GGFORMULA packages for this
+
+
+```{r pressure, echo=FALSE}
+
+
+```
+
+
+Throughout this tutorial we are using an R package called mosaic {{indlude link}} that is designed to for people new to computer programming.
